@@ -1,0 +1,12 @@
+version: '3.3'
+
+services:
+   php:
+     depends_on:
+       - redis
+     image: php-redis-sessions:latest
+     ports:
+       - 8080:80
+   
+   redis:
+     image: redis:latest
