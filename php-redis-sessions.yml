@@ -1,0 +1,30 @@
+version: '3.3'
+
+services:
+  php:
+    depends_on:
+      - redis
+    image: asodrober/docker-php-redis-sessions:latest
+    ports:
+      - 8000:80
+    networks:
+      - proxy
+    deploy:
+      labels:
+        traefik.port: 8000
+        traefik.docker.network: 'proxy'
+        traefik.frontend.rule: 'Host:php-redis-sessions.zitrolab.lan'
+   
+  redis:
+    image: redis:latest
+    networks:
+      - proxy
+    deploy:
+      labels:
+        traefik.docker.network: 'proxy'
+        traefik.frontend.rule: 'Host:php-redis-sessions.redis.zitrolab.lan'
+
+networks:
+  proxy:
+    external: true
+
